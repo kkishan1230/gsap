@@ -5,7 +5,6 @@ export default async function Page({
 }: {
   params: Promise<{ id: string | number }>;
 }) {
-  const id = (await params).id;
   const res = await fetch(`https://jsonplaceholder.typicode.com/posts`);
   const posts = await res.json();
 

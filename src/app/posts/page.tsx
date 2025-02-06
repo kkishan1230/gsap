@@ -1,5 +1,4 @@
 import Card from "@/components/Card";
-import { revalidatePath } from "next/cache";
 import Link from "next/link";
 
 import stl from "./posts.module.css";
