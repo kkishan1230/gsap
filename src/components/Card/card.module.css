@@ -1,0 +1,12 @@
+.cardContainer {
+  width: 280px;
+  height: 400px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+}

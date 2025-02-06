@@ -1,0 +1,38 @@
+.timelineContainer {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  color: white;
+  overflow: auto;
+  padding: 60px;
+  width: 100%;
+  position: relative;
+}
+
+/* for vertical strip */
+.verticalStrip {
+  content: "";
+  background-color: #ffffff;
+  width: 6px;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
+
+.bg {
+  background-image: url("../../../public/images/timeline.jpg");
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  filter: blur(6px) brightness(60%);
+}

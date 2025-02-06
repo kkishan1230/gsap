@@ -1,0 +1,29 @@
+.container {
+  margin-top: 30px;
+}
+
+.container form {
+  width: 400px;
+  border: 1px solid black;
+  margin-inline: auto;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.container input {
+  height: 42px;
+  border-radius: 8px;
+  border: 1px solid black;
+  padding-inline: 10px;
+}
+
+.container button {
+  height: 48px;
+  border: 1px solid black;
+  margin-top: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
