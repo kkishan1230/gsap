@@ -38,26 +38,40 @@ const Timeline = () => {
 
   useEffect(() => {
     dummyData.forEach((_, index) => {
-      gsap.fromTo(
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: `#timelinePoint${index}`,
+          start: `top ${485 - 5 * index}`,
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      tl.fromTo(
+        `#timelinePoint${index}`,
+        {
+          scale: 0,
+        },
+        {
+          scale: 1,
+          duration: 0.2,
+        }
+      ).fromTo(
         cardRef.current[index],
         {
           opacity: 0,
+          yPercent: 10,
         },
         {
           opacity: 1,
-          scrollTrigger: {
-            trigger: cardRef.current[index],
-            start: `top ${445 - 5 * index}`,
-            toggleActions: "play reverse play reverse",
-          },
-          duration: 0.2,
+          yPercent: 0,
+          duration: 0.3,
         }
       );
-    });
 
-    return () => {
-      gsap.killTweensOf(verticalStrip.current);
-    };
+      return () => {
+        gsap.killTweensOf(verticalStrip.current);
+      };
+    });
   }, []);
 
   return (
@@ -65,20 +79,24 @@ const Timeline = () => {
       <div className={stl.verticalStrip} ref={verticalStrip}></div>
       <div className={stl.bg}></div>
       {dummyData.map((item, index) => (
-        <div
-          key={item.id}
-          ref={(el) => {
-            cardRef.current[index] = el;
-          }}
-          className={`${stl.timelineItem} ${
-            item.position === "left" ? stl.left : stl.right
-          }`}
-        >
-          <TimelineCard
-            title={item.title}
-            description={item.description}
-            position={item.position}
-          />
+        <div key={item.id} className={stl.timelineItem}>
+          <div
+            ref={(el) => {
+              cardRef.current[index] = el;
+            }}
+          >
+            <TimelineCard
+              title={item.title}
+              description={item.description}
+              position={item.position}
+            />
+          </div>
+          <div
+            className={`${stl.timelinePoint} ${
+              item.position === "left" ? stl.leftPoint : stl.rightPoint
+            }`}
+            id={`timelinePoint${index}`}
+          ></div>
         </div>
       ))}
     </div>
