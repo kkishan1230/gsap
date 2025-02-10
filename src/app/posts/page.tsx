@@ -10,7 +10,7 @@ export default async function Page() {
   return (
     <div className={stl.container}>
       {posts?.slice(0, 8).map((item: any) => (
-        <Link href={`/posts/${item.id}`}>
+        <Link href={`/posts/${item.id}`} key={item.id}>
           <Card {...item} key={item.id} />
         </Link>
       ))}
