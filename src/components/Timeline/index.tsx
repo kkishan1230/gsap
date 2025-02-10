@@ -21,15 +21,15 @@ const Timeline = () => {
     gsap.fromTo(
       verticalStrip.current,
       {
-        height: "0%",
+        height: 0,
       },
       {
-        height: "85%",
+        height: 1340,
         ease: "none",
         scrollTrigger: {
           trigger: verticalStrip.current,
-          start: "20% 80%",
-          end: "top -90%",
+          start: "top 500",
+          end: "top -900",
           scrub: true,
         },
       }
@@ -47,7 +47,7 @@ const Timeline = () => {
           opacity: 1,
           scrollTrigger: {
             trigger: cardRef.current[index],
-            start: `top ${75 - index * 5}%`,
+            start: `top ${445 - 5 * index}`,
             toggleActions: "play reverse play reverse",
           },
           duration: 0.2,
