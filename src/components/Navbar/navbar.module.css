@@ -1,9 +1,17 @@
+.navWrapper {
+  width: 100%;
+  background-color: rgb(77, 77, 77);
+  color: #ffffff;
+  padding: 24px;
+  font-size: 20px;
+  box-shadow: inset 0px 0px 20px #000000;
+}
+
 .container {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-inline: auto;
   max-width: 1200px;
-  gap: 10px;
-  padding-top: 20px;
+  gap: 24px;
 }
