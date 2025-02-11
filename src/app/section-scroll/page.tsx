@@ -1,0 +1,166 @@
+"use client";
+
+import React, { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import Observer from "gsap/Observer";
+import Image, { StaticImageData } from "next/image";
+
+import style from "./sectionScroll.module.css";
+
+import img1 from "../../../public/images/castle1.jpg";
+import img2 from "../../../public/images/castle2.jpg";
+import img3 from "../../../public/images/castle3.jpg";
+import img4 from "../../../public/images/castle4.jpg";
+
+gsap.registerPlugin(Observer);
+
+interface SectionData {
+  id: number;
+  title: string;
+  zIndex: number;
+  imgSrc: StaticImageData;
+}
+
+const page = () => {
+  const sectionData: SectionData[] = [
+    {
+      id: 1,
+      title: "Eldoria Keep",
+      zIndex: -1,
+      imgSrc: img1,
+    },
+    {
+      id: 2,
+      title: "Aethelred Fortress",
+      zIndex: -1,
+      imgSrc: img2,
+    },
+    {
+      id: 3,
+      title: "Veridian Citadel",
+      zIndex: -1,
+      imgSrc: img3,
+    },
+    {
+      id: 4,
+      title: "Shadowfen Bastion",
+      zIndex: -1,
+      imgSrc: img4,
+    },
+  ];
+
+  const sectionsRef = useRef([]);
+  const headingsRef = useRef([]);
+  const mainContainerRef = useRef(null);
+
+  useEffect(() => {
+    sectionsRef.current = Array.from(
+      document.querySelectorAll(`.${style.section}`)
+    );
+
+    headingsRef.current = Array.from(
+      document.querySelectorAll(`.${style.section} h2`)
+    );
+
+    let currentSection = 0;
+    let isAnimating = false;
+
+    gsap.set(sectionsRef.current[currentSection], { zIndex: 1 });
+
+    Observer.create({
+      target: mainContainerRef.current,
+      type: "wheel",
+      wheelSpeed: -1,
+      tolerance: 10,
+      preventDefault: true,
+      onUp: () => {
+        if (!isAnimating && currentSection < 3) {
+          isAnimating = true;
+          currentSection = currentSection + 1;
+          gsap.set(sectionsRef.current[currentSection - 1], { zIndex: 0 });
+          let tl = gsap.timeline({});
+
+          tl.fromTo(
+            sectionsRef.current[currentSection],
+            {
+              yPercent: 100,
+              zIndex: -1,
+            },
+            {
+              zIndex: 1,
+              yPercent: 0,
+              duration: 1.5,
+              onComplete: () => {
+                isAnimating = false;
+              },
+            }
+          )
+            .fromTo(
+              headingsRef.current[currentSection],
+              {
+                opacity: 0,
+                scale: 0.6,
+              },
+              {
+                opacity: 1,
+                scale: 1.05,
+                duration: 0.3,
+              }
+            )
+            .to(headingsRef.current[currentSection], {
+              scale: 1,
+              duration: 0.15,
+            });
+        }
+      },
+      onDown: () => {
+        if (!isAnimating && currentSection > 0) {
+          isAnimating = true;
+          let tl = gsap.timeline({});
+          tl.fromTo(
+            sectionsRef.current[currentSection],
+            {
+              yPercent: 0,
+            },
+            {
+              yPercent: 100,
+              duration: 1.5,
+              onComplete: () => {
+                isAnimating = false;
+                gsap.set(sectionsRef.current[currentSection], { zIndex: 0 });
+                gsap.set(sectionsRef.current[currentSection - 1], {
+                  zIndex: 1,
+                });
+                currentSection = currentSection - 1;
+              },
+            }
+          );
+        }
+      },
+    });
+  }, []);
+
+  return (
+    <div
+      className={style.sectionScrollContainer}
+      ref={mainContainerRef}
+      style={{ background: "black" }}
+    >
+      {sectionData.map((item) => (
+        <div
+          key={item.id}
+          className={`${style.section}`}
+          id={`#section${item.id}`}
+          style={{ zIndex: item.zIndex }}
+        >
+          <div className={style.contentWrapper}>
+            <Image src={item.imgSrc} alt="" fill />
+            <h2>{item.title}</h2>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default page;

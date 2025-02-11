@@ -16,7 +16,7 @@ const index = () => {
           <Link href={"/timeline"}>Timeline</Link>
         </div>
         <div>
-          <Link href={"/scroll"}>Scroll</Link>
+          <Link href={"/section-scroll"}>Scroll</Link>
         </div>
         <div>
           <Link href={"/posts"}>Posts</Link>
