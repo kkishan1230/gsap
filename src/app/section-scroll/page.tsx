@@ -113,10 +113,19 @@ const page = () => {
           0.5
         );
 
-        tl2.to(sectionsRef.current[currentSection - 1], {
-          yPercent: -10,
-          duration: 1.5,
-        });
+        tl2.fromTo(
+          sectionsRef.current[currentSection - 1],
+          {
+            scale: 1,
+            opacity: 1,
+          },
+          {
+            yPercent: -10,
+            scale: 0.8,
+            opacity: 0,
+            duration: 1.5,
+          }
+        );
       }
     };
 
@@ -173,10 +182,14 @@ const page = () => {
           sectionsRef.current[currentSection - 1],
           {
             yPercent: -10,
+            opacity: 0,
+            scale: 0.8,
           },
           {
             yPercent: 0,
             duration: 1.5,
+            opacity: 1,
+            scale: 1,
           }
         );
       }
