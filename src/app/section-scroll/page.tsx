@@ -118,12 +118,14 @@ const page = () => {
           {
             scale: 1,
             opacity: 1,
+            filter: "brightness(100%)",
           },
           {
             yPercent: -10,
             scale: 0.8,
             opacity: 0,
             duration: 1.5,
+            filter: "brightness(20%)",
           }
         );
       }
@@ -184,8 +186,10 @@ const page = () => {
             yPercent: -10,
             opacity: 0,
             scale: 0.8,
+            filter: "brightness(20%)",
           },
           {
+            filter: "brightness(100%)",
             yPercent: 0,
             duration: 1.5,
             opacity: 1,
