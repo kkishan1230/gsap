@@ -68,6 +68,120 @@ const page = () => {
 
     gsap.set(sectionsRef.current[currentSection], { zIndex: 1 });
 
+    const scrollUp = () => {
+      if (!isAnimating && currentSection < 3) {
+        isAnimating = true;
+        currentSection = currentSection + 1;
+        gsap.set(sectionsRef.current[currentSection - 1], { zIndex: 0 });
+
+        const dab = headingsRef.current[currentSection] as HTMLHeadingElement;
+        const abc = splitText(dab);
+
+        let tl2 = gsap.timeline({});
+        let tl = gsap.timeline({});
+
+        tl.fromTo(
+          sectionsRef.current[currentSection],
+          {
+            yPercent: 100,
+            zIndex: -1,
+          },
+          {
+            zIndex: 1,
+            yPercent: 0,
+            duration: 1.5,
+            onComplete: () => {
+              isAnimating = false;
+            },
+          }
+        ).fromTo(
+          abc,
+          {
+            autoAlpha: 0,
+            yPercent: 75,
+          },
+          {
+            autoAlpha: 1,
+            yPercent: 0,
+            duration: 0.7,
+            ease: "power2",
+            stagger: {
+              each: 0.02,
+              from: "random",
+            },
+          },
+          0.5
+        );
+
+        tl2.to(sectionsRef.current[currentSection - 1], {
+          yPercent: -10,
+          duration: 1.5,
+        });
+      }
+    };
+
+    const scrollDown = () => {
+      if (!isAnimating && currentSection > 0) {
+        isAnimating = true;
+        let tl = gsap.timeline({});
+        let tl2 = gsap.timeline({});
+
+        const dab = headingsRef.current[
+          currentSection - 1
+        ] as HTMLHeadingElement;
+        const abc = splitText(dab);
+        console.log(abc);
+
+        tl.fromTo(
+          sectionsRef.current[currentSection],
+          {
+            yPercent: 0,
+          },
+          {
+            yPercent: 100,
+            duration: 1.5,
+            onComplete: () => {
+              isAnimating = false;
+              gsap.set(sectionsRef.current[currentSection], { zIndex: 0 });
+              gsap.set(sectionsRef.current[currentSection - 1], {
+                zIndex: 1,
+              });
+
+              currentSection = currentSection - 1;
+            },
+          }
+        ).fromTo(
+          abc,
+          {
+            autoAlpha: 0,
+            yPercent: -75,
+            duration: 0.7,
+          },
+          {
+            autoAlpha: 1,
+            yPercent: 0,
+            ease: "power2",
+            stagger: {
+              each: 0.02,
+              from: "random",
+            },
+          },
+          0.5
+        );
+
+        tl2.fromTo(
+          sectionsRef.current[currentSection - 1],
+          {
+            yPercent: -10,
+          },
+          {
+            yPercent: 0,
+            duration: 1.5,
+          }
+        );
+      }
+    };
+
     Observer.create({
       target: mainContainerRef.current,
       type: "wheel",
@@ -75,93 +189,10 @@ const page = () => {
       tolerance: 10,
       preventDefault: true,
       onUp: () => {
-        if (!isAnimating && currentSection < 3) {
-          isAnimating = true;
-          currentSection = currentSection + 1;
-          gsap.set(sectionsRef.current[currentSection - 1], { zIndex: 0 });
-
-          console.log(headingsRef.current[currentSection]);
-
-          const dab = headingsRef.current[currentSection] as HTMLHeadingElement;
-          const abc = splitText(dab);
-
-          let tl = gsap.timeline({});
-          let tl2 = gsap.timeline({});
-
-          tl.fromTo(
-            sectionsRef.current[currentSection],
-            {
-              yPercent: 100,
-              zIndex: -1,
-            },
-            {
-              zIndex: 1,
-              yPercent: 0,
-              duration: 1.5,
-              onComplete: () => {
-                isAnimating = false;
-              },
-            }
-          ).fromTo(
-            abc,
-            {
-              autoAlpha: 0,
-              yPercent: 75,
-            },
-            {
-              autoAlpha: 1,
-              yPercent: 0,
-              duration: 0.7,
-              ease: "power2",
-              stagger: {
-                each: 0.02,
-                from: "random",
-              },
-            }
-          );
-
-          tl2.to(sectionsRef.current[currentSection - 1], {
-            yPercent: -10,
-            duration: 1.5,
-          });
-        }
+        scrollUp();
       },
       onDown: () => {
-        if (!isAnimating && currentSection > 0) {
-          isAnimating = true;
-          let tl = gsap.timeline({});
-          let tl2 = gsap.timeline({});
-          tl.fromTo(
-            sectionsRef.current[currentSection],
-            {
-              yPercent: 0,
-            },
-            {
-              yPercent: 100,
-              duration: 1.5,
-              onComplete: () => {
-                isAnimating = false;
-                gsap.set(sectionsRef.current[currentSection], { zIndex: 0 });
-                gsap.set(sectionsRef.current[currentSection - 1], {
-                  zIndex: 1,
-                });
-
-                currentSection = currentSection - 1;
-              },
-            }
-          );
-
-          tl2.fromTo(
-            sectionsRef.current[currentSection - 1],
-            {
-              yPercent: -10,
-            },
-            {
-              yPercent: 0,
-              duration: 1.5,
-            }
-          );
-        }
+        scrollDown();
       },
     });
   }, []);
