@@ -11,8 +11,10 @@ import img1 from "../../../public/images/castle1.jpg";
 import img2 from "../../../public/images/castle2.jpg";
 import img3 from "../../../public/images/castle3.jpg";
 import img4 from "../../../public/images/castle4.jpg";
+import { SplitText } from "gsap-trial/SplitText";
 
 gsap.registerPlugin(Observer);
+gsap.registerPlugin(SplitText);
 
 interface SectionData {
   id: number;
@@ -65,6 +67,13 @@ const page = () => {
     let currentSection = 0;
     let isAnimating = false;
 
+    let splitHeadings = headingsRef.current.map(
+      (heading) =>
+        new SplitText(heading, {
+          type: "chars",
+        })
+    );
+
     gsap.set(sectionsRef.current[currentSection], { zIndex: 1 });
 
     Observer.create({
@@ -78,7 +87,13 @@ const page = () => {
           isAnimating = true;
           currentSection = currentSection + 1;
           gsap.set(sectionsRef.current[currentSection - 1], { zIndex: 0 });
+          const headingText = new SplitText(
+            headingsRef.current[currentSection],
+            { type: "chars" }
+          );
+
           let tl = gsap.timeline({});
+          let tl2 = gsap.timeline({});
 
           tl.fromTo(
             sectionsRef.current[currentSection],
@@ -94,29 +109,35 @@ const page = () => {
                 isAnimating = false;
               },
             }
-          )
-            .fromTo(
-              headingsRef.current[currentSection],
-              {
-                opacity: 0,
-                scale: 0.6,
+          ).fromTo(
+            headingText.chars,
+            {
+              autoAlpha: 0,
+              yPercent: 75,
+            },
+            {
+              autoAlpha: 1,
+              yPercent: 0,
+              duration: 1,
+              ease: "power2",
+              stagger: {
+                each: 0.02,
+                from: "random",
               },
-              {
-                opacity: 1,
-                scale: 1.05,
-                duration: 0.3,
-              }
-            )
-            .to(headingsRef.current[currentSection], {
-              scale: 1,
-              duration: 0.15,
-            });
+            }
+          );
+
+          tl2.to(sectionsRef.current[currentSection - 1], {
+            yPercent: -10,
+            duration: 1.5,
+          });
         }
       },
       onDown: () => {
         if (!isAnimating && currentSection > 0) {
           isAnimating = true;
           let tl = gsap.timeline({});
+          let tl2 = gsap.timeline({});
           tl.fromTo(
             sectionsRef.current[currentSection],
             {
@@ -133,6 +154,17 @@ const page = () => {
                 });
                 currentSection = currentSection - 1;
               },
+            }
+          );
+
+          tl2.fromTo(
+            sectionsRef.current[currentSection - 1],
+            {
+              yPercent: -10,
+            },
+            {
+              yPercent: 0,
+              duration: 1.5,
             }
           );
         }
