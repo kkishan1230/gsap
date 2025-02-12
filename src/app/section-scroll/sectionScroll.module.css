@@ -36,4 +36,6 @@
   transform: translate(-50%, -50%);
   font-size: 64px;
   letter-spacing: 20px;
+  display: flex;
+  flex-wrap: nowrap;
 }

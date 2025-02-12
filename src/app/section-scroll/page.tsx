@@ -11,10 +11,9 @@ import img1 from "../../../public/images/castle1.jpg";
 import img2 from "../../../public/images/castle2.jpg";
 import img3 from "../../../public/images/castle3.jpg";
 import img4 from "../../../public/images/castle4.jpg";
-import { SplitText } from "gsap-trial/SplitText";
+import { splitText } from "@/utils/utils";
 
 gsap.registerPlugin(Observer);
-gsap.registerPlugin(SplitText);
 
 interface SectionData {
   id: number;
@@ -67,13 +66,6 @@ const page = () => {
     let currentSection = 0;
     let isAnimating = false;
 
-    let splitHeadings = headingsRef.current.map(
-      (heading) =>
-        new SplitText(heading, {
-          type: "chars",
-        })
-    );
-
     gsap.set(sectionsRef.current[currentSection], { zIndex: 1 });
 
     Observer.create({
@@ -87,10 +79,11 @@ const page = () => {
           isAnimating = true;
           currentSection = currentSection + 1;
           gsap.set(sectionsRef.current[currentSection - 1], { zIndex: 0 });
-          const headingText = new SplitText(
-            headingsRef.current[currentSection],
-            { type: "chars" }
-          );
+
+          console.log(headingsRef.current[currentSection]);
+
+          const dab = headingsRef.current[currentSection] as HTMLHeadingElement;
+          const abc = splitText(dab);
 
           let tl = gsap.timeline({});
           let tl2 = gsap.timeline({});
@@ -110,7 +103,7 @@ const page = () => {
               },
             }
           ).fromTo(
-            headingText.chars,
+            abc,
             {
               autoAlpha: 0,
               yPercent: 75,
@@ -118,7 +111,7 @@ const page = () => {
             {
               autoAlpha: 1,
               yPercent: 0,
-              duration: 1,
+              duration: 0.7,
               ease: "power2",
               stagger: {
                 each: 0.02,
@@ -152,6 +145,7 @@ const page = () => {
                 gsap.set(sectionsRef.current[currentSection - 1], {
                   zIndex: 1,
                 });
+
                 currentSection = currentSection - 1;
               },
             }
