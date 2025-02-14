@@ -1,5 +1,11 @@
+import ContactScroll from "@/components/ContactScroll";
+
 const Contact = () => {
-  return <div>Contact</div>;
+  return (
+    <>
+      <ContactScroll />
+    </>
+  );
 };
 
 export default Contact;

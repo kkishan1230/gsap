@@ -1,0 +1,88 @@
+.container {
+  background-color: #000000;
+}
+
+.bgCommonStyles {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.bannerSection {
+  height: calc(100vh - 71px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("../../../public/images/castle1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.bannerSection h1 {
+  color: #ffffff;
+  font-size: 64px;
+}
+
+.scrollable {
+  background-color: grey;
+  text-align: center;
+  padding: 20px;
+  color: #ffffff;
+  font-size: 28px;
+  padding: 60px;
+  background-image: url("../../../public/images/castle2.jpg");
+}
+
+.castleNames {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.headingWrapper {
+  overflow: hidden;
+}
+
+.castleImagesContainer {
+  padding: 60px;
+  background-position: top;
+  position: relative;
+}
+
+.castleImagesContainer > img {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  filter: blur(10px) brightness(50%);
+}
+
+.imageAndTextWrapper {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  z-index: 1;
+}
+
+.imageAndTextWrapper img {
+  border-radius: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.imageAndTextWrapper h3 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 32px;
+  z-index: 0;
+}
